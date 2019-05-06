@@ -1,4 +1,4 @@
-package hr.fer.zemris.seminar.s0036507836.window;
+package hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.window;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -17,9 +17,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import hr.fer.zemris.seminar.s0036507836.genetic.Alphabet;
-import hr.fer.zemris.seminar.s0036507836.genetic.Population;
-import hr.fer.zemris.seminar.s0036507836.genetic.Town;
+import hr.fer.zemris.seminar.s0036507836.genetic.IAlphabet;
+import hr.fer.zemris.seminar.s0036507836.genetic.IPopulation;
+import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.City;
+import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.GeneticImpl;
 
 public class Window extends JFrame {
     
@@ -45,7 +46,7 @@ public class Window extends JFrame {
 	private JCheckBox simulate;
 	
 	private PopulationEvolver evolver;
-	private Population population;
+	private IPopulation<City> population;
 
 	public Window(int width, int height) {
 		
@@ -84,7 +85,7 @@ public class Window extends JFrame {
     	controls.add(lPopSize);
     	
     	popSize = new JTextField();
-    	popSize.setText("200");
+    	popSize.setText("20");
     	controls.add(popSize);
     	
     	JLabel lMutationRate = new JLabel();
@@ -175,8 +176,8 @@ public class Window extends JFrame {
 	        	
         		int populationSize;
         		double mutation;
-        		Town startTown;
-        		List<Town> towns = new ArrayList<Town>();
+        		City startTown;
+        		List<City> cities = new ArrayList<City>();
 	        	
 	        	try {
 	        		populationSize = Integer.parseInt(popSize.getText());
@@ -207,7 +208,8 @@ public class Window extends JFrame {
 	        		if(parsed.length!=3) throw new IllegalArgumentException();
 	        		int x = Integer.parseInt(parsed[0]);
 	        		int y = Integer.parseInt(parsed[1]);
-	        		startTown = new Town(parsed[2], x, y);
+	        		startTown = new City(parsed[2], x, y);
+	        		cities.add(startTown);
 	        	} catch(Exception e) {
 	        		JOptionPane.showMessageDialog(this, "StartTown coordinates not formated correctly!");
 	        		return;
@@ -222,7 +224,7 @@ public class Window extends JFrame {
 	        			if(str.length!=3) throw new IllegalArgumentException();
 	        			int x = Integer.parseInt(str[0]);
 		        		int y = Integer.parseInt(str[1]);
-		        		towns.add(new Town(str[2], x, y));
+		        		cities.add(new City(str[2], x, y));
 	        		}
 	        		
 	        	} catch(Exception e) {
@@ -230,12 +232,16 @@ public class Window extends JFrame {
 	        		return;
 	        	}
 	        	
-	        	Alphabet alphabet = new Alphabet(towns, startTown);
+	        	IAlphabet<City> alphabet = new IAlphabet<>(cities);
 	        	
 	        	start.setEnabled(false);
 	        	stop.setEnabled(true);
 	        	
-	        	population = new Population(populationSize, mutation, alphabet);
+	        	population = new IPopulation<City>(populationSize, mutation, alphabet, 
+	        			GeneticImpl.crossoverFunction, 
+	        			GeneticImpl.mutationFunction, 
+	        			GeneticImpl.fitnessFunction, 
+	        			GeneticImpl.randomDnaGenerator);
 	        	b.setDna(population.getBestForCurrentGeneration().getDna());
 	        	
 	        	evolver = new PopulationEvolver(population, b, generationNo, pathLength, simulate.isSelected());

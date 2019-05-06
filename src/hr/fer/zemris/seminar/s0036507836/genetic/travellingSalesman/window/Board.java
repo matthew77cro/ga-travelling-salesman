@@ -1,4 +1,4 @@
-package hr.fer.zemris.seminar.s0036507836.window;
+package hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.window;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,14 +8,14 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import hr.fer.zemris.seminar.s0036507836.genetic.Dna;
-import hr.fer.zemris.seminar.s0036507836.genetic.Town;
+import hr.fer.zemris.seminar.s0036507836.genetic.IDna;
+import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.City;
 
 public class Board extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Dna dna;
+	private IDna<City> dna;
 	private final int boardWidth;
 	private final int boardHeight;
 	
@@ -29,7 +29,7 @@ public class Board extends JPanel {
 		this.setBackground(Color.LIGHT_GRAY);
 	}
 	
-	public Dna getDna() {
+	public IDna<City> getDna() {
 		return dna;
 	}
 	
@@ -41,7 +41,7 @@ public class Board extends JPanel {
 		return boardHeight;
 	}
 	
-	public void setDna(Dna dna) {
+	public void setDna(IDna<City> dna) {
 		this.dna = dna;
 	}
 	
@@ -55,21 +55,18 @@ public class Board extends JPanel {
 		
 		if(dna==null) return;
 		
-		drawing = true;
+		//SEMAPHORE ACQUIRE
 		Graphics2D gr = (Graphics2D) g;
 		
-		List<Town> towns = dna.getGenes();
+		List<City> cities = dna.getGenes();
 		
-		Town start = dna.getAlphabet().getStartTown();
-		gr.drawString(start.getName(), start.getX(), start.getY());
-		gr.drawLine(start.getX(), start.getY(), towns.get(0).getX(), towns.get(0).getY());
-		for(int i=0; i<towns.size()-1; i++) {
-			gr.drawString(towns.get(i).getName(), towns.get(i).getX(), towns.get(i).getY());
-			gr.drawLine(towns.get(i).getX(), towns.get(i).getY(), towns.get(i+1).getX(), towns.get(i+1).getY());
+		for(int i=0; i<cities.size()-1; i++) {
+			gr.drawString(cities.get(i).getName(), cities.get(i).getX(), cities.get(i).getY());
+			gr.drawLine(cities.get(i).getX(), cities.get(i).getY(), cities.get(i+1).getX(), cities.get(i+1).getY());
 		}
-		Town last = towns.get(towns.size()-1);
+		City last = cities.get(cities.size()-1);
 		gr.drawString(last.getName(), last.getX(), last.getY());
-		drawing=false;
+		//SEMAPHORE RELEASE
     }
     
 }

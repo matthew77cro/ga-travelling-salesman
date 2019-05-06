@@ -9,10 +9,11 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import hr.fer.zemris.seminar.s0036507836.genetic.Alphabet;
-import hr.fer.zemris.seminar.s0036507836.genetic.Dna;
-import hr.fer.zemris.seminar.s0036507836.genetic.Population;
-import hr.fer.zemris.seminar.s0036507836.genetic.Town;
+import hr.fer.zemris.seminar.s0036507836.genetic.IAlphabet;
+import hr.fer.zemris.seminar.s0036507836.genetic.IDna;
+import hr.fer.zemris.seminar.s0036507836.genetic.IPopulation;
+import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.City;
+import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.GeneticImpl;
 
 public class Demo extends JFrame{
 	
@@ -28,18 +29,19 @@ public class Demo extends JFrame{
 	
 	public static void main(String[] args) {
 		
-		Town[] townsArr = { new Town("Zagreb", 200, 80),
-						 new Town("Pula", 20, 100),
-						 new Town("Varazdin", 250, 20),
-						 new Town("Djakovo", 460, 125),
-						 new Town("Rijeka", 50, 150),
-						 new Town("Zadar", 75, 300),
-						 new Town("Dubrovnik", 150, 450),
-						 new Town("Sl Brod", 350, 150) 
+		City[] townsArr = { new City("Zagreb", 200, 80),
+						 new City("Pula", 20, 100),
+						 new City("Varazdin", 250, 20),
+						 new City("Djakovo", 460, 125),
+						 new City("Rijeka", 50, 150),
+						 new City("Zadar", 75, 300),
+						 new City("Dubrovnik", 150, 450),
+						 new City("Sl Brod", 350, 150) 
 						 };
-		List<Town> towns = Arrays.asList(townsArr);
+		List<City> towns = Arrays.asList(townsArr);
 		
-		Population p = new Population(200, 0.01, new Alphabet(towns, new Town("Osijek", 450, 100)));
+		IPopulation<City> p = new IPopulation<City>(200, 0.12, new IAlphabet<City>(towns), GeneticImpl.crossoverFunction,
+				GeneticImpl.mutationFunction, GeneticImpl.fitnessFunction, GeneticImpl.randomDnaGenerator);
 		
 		JFrame frame = new Demo();
 		Board b = new Board(p.getBestForCurrentGeneration().getDna());
@@ -56,14 +58,14 @@ public class Demo extends JFrame{
 			//System.out.println(distance);  //printing distance for best entity
 			if(min>distance) min = distance;
 			p.nextGeneration();
-			//sc.next();
+			sc.next();
 			b.setDna(p.getBestForCurrentGeneration().getDna());
 			frame.repaint();
 		}
 		
 		System.out.println("MINIMUM: " + min);
 		
-		for(Town t : p.getBestForCurrentGeneration().getDna().getGenes()) {
+		for(City t : p.getBestForCurrentGeneration().getDna().getGenes()) {
 			System.out.println(t.getX() + " " + t.getY());
 		}
 		
@@ -77,13 +79,13 @@ public class Demo extends JFrame{
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Dna dna;
+		private IDna<City> dna;
 		
-		public Board(Dna dna) {
+		public Board(IDna<City> dna) {
 			this.dna = dna;
 		}
 		
-		public void setDna(Dna dna) {
+		public void setDna(IDna<City> dna) {
 			this.dna = dna;
 		}
 		
@@ -91,16 +93,13 @@ public class Demo extends JFrame{
 		protected void paintComponent(Graphics g) {			
 			Graphics2D gr = (Graphics2D) g;
 			
-			List<Town> towns = dna.getGenes();
+			List<City> towns = dna.getGenes();
 			
-			Town start = dna.getAlphabet().getStartTown();
-			gr.drawString(start.getName(), start.getX(), start.getY());
-			gr.drawLine(start.getX(), start.getY(), towns.get(0).getX(), towns.get(0).getY());
 			for(int i=0; i<towns.size()-1; i++) {
 				gr.drawString(towns.get(i).getName(), towns.get(i).getX(), towns.get(i).getY());
 				gr.drawLine(towns.get(i).getX(), towns.get(i).getY(), towns.get(i+1).getX(), towns.get(i+1).getY());
 			}
-			Town last = towns.get(towns.size()-1);
+			City last = towns.get(towns.size()-1);
 			gr.drawString(last.getName(), last.getX(), last.getY());
 		
 		}

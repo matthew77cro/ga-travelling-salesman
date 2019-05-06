@@ -1,13 +1,13 @@
-package hr.fer.zemris.seminar.s0036507836.genetic;
+package hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman;
 
 import java.util.Objects;
 
 /**
- * This class models a town for travelling salesman problem
+ * This class models a city for travelling salesman problem as a point in the coordinate system
  * @author Matija
  *
  */
-public class Town {
+public class City {
 	
 	private String name;
 	private int x;
@@ -19,7 +19,7 @@ public class Town {
 	 * @param x x-coordinate
 	 * @param y y-coordinate
 	 */
-	public Town(String name, int x, int y) {
+	public City(String name, int x, int y) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
@@ -55,7 +55,7 @@ public class Town {
 	 * @return distance from this town the the town given in the argument as other
 	 * @throws NullPointerException if other is <code>null</code>
 	 */
-	public double distanceTo(Town other) {
+	public double distanceTo(City other) {
 		return distance(this, other);
 	}
 	
@@ -66,7 +66,7 @@ public class Town {
 	 * @return the distance between t1 and t2
 	 * @throws NullPointerException if t1 or t2 is null
 	 */
-	public static double distance(Town t1, Town t2) {
+	public static double distance(City t1, City t2) {
 		return Math.sqrt(Math.pow(t1.x-t2.x,2) + Math.pow(t1.y-t2.y,2));
 	}
 
@@ -81,9 +81,9 @@ public class Town {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Town))
+		if (!(obj instanceof City))
 			return false;
-		Town other = (Town) obj;
+		City other = (City) obj;
 		return x == other.x && y == other.y;
 	}
 
