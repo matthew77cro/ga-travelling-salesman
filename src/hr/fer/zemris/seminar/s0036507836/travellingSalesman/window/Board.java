@@ -1,36 +1,38 @@
-package hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.window;
+package hr.fer.zemris.seminar.s0036507836.travellingSalesman.window;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JPanel;
 
-import hr.fer.zemris.seminar.s0036507836.genetic.IDna;
-import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.City;
+import hr.fer.zemris.seminar.s0036507836.travellingSalesman.City;
 
 public class Board extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private IDna<City> dna;
+	private List<City> cities;
 	private final int boardWidth;
 	private final int boardHeight;
 	
-	private boolean drawing;
+	private AtomicBoolean drawing;
 	
 	public Board(int boardWidth, int boardHeight) {
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
 		this.setPreferredSize(new Dimension(boardWidth, boardHeight));
+		this.drawing = new AtomicBoolean(false);
 		
+		this.setOpaque(true);
 		this.setBackground(Color.LIGHT_GRAY);
 	}
 	
-	public IDna<City> getDna() {
-		return dna;
+	public List<City> getCities() {
+		return cities;
 	}
 	
 	public int getBoardWidth() {
@@ -41,11 +43,11 @@ public class Board extends JPanel {
 		return boardHeight;
 	}
 	
-	public void setDna(IDna<City> dna) {
-		this.dna = dna;
+	public void setCities(List<City> cities) {
+		this.cities = cities;
 	}
 	
-	public boolean isDrawing() {
+	public AtomicBoolean isDrawing() {
 		return drawing;
 	}
 	
@@ -53,12 +55,11 @@ public class Board extends JPanel {
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		if(dna==null) return;
+		if(cities==null) return;
 		
-		//SEMAPHORE ACQUIRE
+		drawing.set(true);
+		
 		Graphics2D gr = (Graphics2D) g;
-		
-		List<City> cities = dna.getGenes();
 		
 		for(int i=0; i<cities.size()-1; i++) {
 			gr.drawString(cities.get(i).getName(), cities.get(i).getX(), cities.get(i).getY());
@@ -66,7 +67,9 @@ public class Board extends JPanel {
 		}
 		City last = cities.get(cities.size()-1);
 		gr.drawString(last.getName(), last.getX(), last.getY());
-		//SEMAPHORE RELEASE
+		
+		drawing.set(false);
+
     }
     
 }

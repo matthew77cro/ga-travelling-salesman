@@ -1,4 +1,4 @@
-package hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.window;
+package hr.fer.zemris.seminar.s0036507836.travellingSalesman.window;
 
 import javax.swing.SwingUtilities;
 

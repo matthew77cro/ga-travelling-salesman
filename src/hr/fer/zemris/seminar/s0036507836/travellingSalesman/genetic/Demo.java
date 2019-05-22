@@ -1,4 +1,4 @@
-package hr.fer.zemris.seminar.s0036507836.demo;
+package hr.fer.zemris.seminar.s0036507836.travellingSalesman.genetic;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,8 +12,7 @@ import javax.swing.JPanel;
 import hr.fer.zemris.seminar.s0036507836.genetic.IAlphabet;
 import hr.fer.zemris.seminar.s0036507836.genetic.IDna;
 import hr.fer.zemris.seminar.s0036507836.genetic.IPopulation;
-import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.City;
-import hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman.GeneticImpl;
+import hr.fer.zemris.seminar.s0036507836.travellingSalesman.City;
 
 public class Demo extends JFrame{
 	
@@ -29,14 +28,15 @@ public class Demo extends JFrame{
 	
 	public static void main(String[] args) {
 		
-		City[] townsArr = { new City("Zagreb", 200, 80),
+		City[] townsArr = { new City("Osijek", 450, 100),
+						 new City("Zagreb", 200, 80),
 						 new City("Pula", 20, 100),
 						 new City("Varazdin", 250, 20),
 						 new City("Djakovo", 460, 125),
 						 new City("Rijeka", 50, 150),
 						 new City("Zadar", 75, 300),
 						 new City("Dubrovnik", 150, 450),
-						 new City("Sl Brod", 350, 150) 
+						 new City("Sl Brod", 350, 150)
 						 };
 		List<City> towns = Arrays.asList(townsArr);
 		
@@ -52,14 +52,15 @@ public class Demo extends JFrame{
 		
 		double min = Double.MAX_VALUE;
 		
-		for(int i=0; i<5000; i++) {
+		for(int i=0; i<5000000; i++) {
 			//System.out.print("Generation: " + i + " -> BEST DISTANCE: ");
 			double distance = 1.0/p.getBestForCurrentGeneration().getFitness();
 			//System.out.println(distance);  //printing distance for best entity
-			if(min>distance) min = distance;
+			if(min>distance) {
+				min = distance;
+				b.setDna(p.getBestForCurrentGeneration().getDna());
+			}
 			p.nextGeneration();
-			sc.next();
-			b.setDna(p.getBestForCurrentGeneration().getDna());
 			frame.repaint();
 		}
 		

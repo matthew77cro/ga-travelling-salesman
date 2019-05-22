@@ -1,4 +1,4 @@
-package hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman;
+package hr.fer.zemris.seminar.s0036507836.travellingSalesman;
 
 import java.util.Objects;
 

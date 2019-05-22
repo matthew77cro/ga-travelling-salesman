@@ -1,4 +1,4 @@
-package hr.fer.zemris.seminar.s0036507836.genetic.travellingSalesman;
+package hr.fer.zemris.seminar.s0036507836.travellingSalesman.genetic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import hr.fer.zemris.seminar.s0036507836.genetic.DnaNotCompatibleException;
 import hr.fer.zemris.seminar.s0036507836.genetic.IAlphabet;
 import hr.fer.zemris.seminar.s0036507836.genetic.IDna;
 import hr.fer.zemris.seminar.s0036507836.genetic.IEntity;
+import hr.fer.zemris.seminar.s0036507836.travellingSalesman.City;
 
 public class GeneticImpl {
 	
