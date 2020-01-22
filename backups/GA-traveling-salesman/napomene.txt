@@ -1,0 +1,33 @@
+dodati mozda da nije svaki grad povezan sa svakim
+
+dodati i cost per edge
+zaustaviti algoritam ako se nista vec duze vrijeme ne mijenja
+(odnosno ako se fitness najboljeg ne mijenja u poslijednjih
+recimo n iteracija)
+
+napraviti i kineskog postara (startTown==endTown -> true)
+
+
+			//ILI OVAKO
+//			for(x=0;x<darts.length-1 && darts[x+1]>entity1Code; x++);
+//			for(y=0;y<darts.length-1 && darts[y+1]>entity2Code; y++);
+
+JELI BOLJE 10 POSTO POPULACIJE UZETI ZA CROSS OVER ILI CIJELU? ILI NEKI DRUGI POSTOTAK?
+
+paziti da ne promijenim prvi grad jer je on početni GOTOVO
+
+napraviti i brute force pa usporediti vremena GOTOVO
+
+populaciju staviti na 20 jedinki GOTOVO (na 30 sam stavio, bolje)
+
+dodati checkbox (genetic/brute force) GOTOVO
+
+dodati checkbox (respect starting town yes/no)
+
+dodati sinkronizaciju semaforima kod iscrtavanja na ekran (da populationEvolver ne mijenja populaciju dok ovaj crta) GOTOVO
+
+prebaciti sve sto vadi data iz window u populationEvolver NE (losa ideja)
+
+daisable textboxes when brute force is selected and move radio buttons to the top GOTOVO
+
+dodati textbox name=Goal (ako znamo koliki je nakraci put pa da genetski algoritam zna stat tada) GOTOVO
